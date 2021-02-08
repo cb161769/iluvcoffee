@@ -16,7 +16,7 @@ export class CoffeesController {
     findAll(@Query() paginationQuery) {
         //const {limit,offset} = paginationQuery;
         //return `This action returns all coffees, limit ${limit}, offset ${offset}`;
-        return this.coffeesService.findAll();
+        return this.coffeesService.findAll(paginationQuery);
     }
     @Get(':id')
     findOne(@Param('id' ) id:string){
