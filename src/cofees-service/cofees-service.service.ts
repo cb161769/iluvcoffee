@@ -1,4 +1,4 @@
-import { EventEntity } from 'src/entitys/events/entities/event.entity';
+// import { EventEntity } from 'src/entitys/events/entities/event.entity';
 import { PaginationQueryDto } from './../entitys/common/dto/pagination-query.dto';
 import { FlavorEntity } from './../entitys/flavor.entity';
 import { UpdateCoffeeDto } from './../entitys/coffees/dto/update-coffee.dto';
@@ -8,6 +8,7 @@ import { Injectable,NotFoundException, Scope  } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Connection, Repository } from 'typeorm';
 import { Console } from 'console';
+import { EventEntity } from 'src/entitys/events/entities/event.entity';
 
 
 @Injectable({scope: Scope.DEFAULT})
@@ -35,7 +36,7 @@ export class CofeesServiceService {
            take:limit,
        });
     }
-    async findOne(id:string){
+    async findOne(id:number){
         const coffee =  this.coffeRepository.findOne(id,{
             relations:['flavors']
         });
@@ -94,25 +95,25 @@ export class CofeesServiceService {
         }
         return this.flavorRepository.create({name});
     }
-    async recommendCoffee(coffee:Coffee){
-        const queryRunner = this.connection.createQueryRunner();
-        await queryRunner.connect();
-        await queryRunner.startTransaction();
-        try {
-            coffee.recommendations ++;
-            const recommendEvent = new EventEntity();
-            recommendEvent.name = 'recommend_coffee';
-            recommendEvent.Type = 'coffee';
-            recommendEvent.payload = {coffeId:coffee.id};
-            await queryRunner.manager.save(coffee);
-            await queryRunner.manager.save(recommendEvent);
-            await queryRunner.commitTransaction();
+    // async recommendCoffee(coffee:Coffee){
+    //     const queryRunner = this.connection.createQueryRunner();
+    //     await queryRunner.connect();
+    //     await queryRunner.startTransaction();
+    //     try {
+    //         coffee.recommendations ++;
+    //         const recommendEvent = new EventEntity();
+    //         recommendEvent.name = 'recommend_coffee';
+    //         recommendEvent.Type = 'coffee';
+    //         recommendEvent.payload = {coffeId:coffee.id};
+    //         await queryRunner.manager.save(coffee);
+    //         await queryRunner.manager.save(recommendEvent);
+    //         await queryRunner.commitTransaction();
             
-        } catch (error) {
-            await queryRunner.rollbackTransaction();
+    //     } catch (error) {
+    //         await queryRunner.rollbackTransaction();
             
-        } finally{
-            await queryRunner.release();
-        }
-    }
+    //     } finally{
+    //         await queryRunner.release();
+    //     }
+    // }
 }
