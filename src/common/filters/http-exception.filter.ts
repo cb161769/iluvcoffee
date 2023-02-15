@@ -12,8 +12,13 @@ export class HttpExceptionFilter<T extends HttpException> implements ExceptionFi
       ? {message: exceptionResponse}
       : (exceptionResponse as object);
     response.status(status).json({
-      ...error,
-      timestamp : new Date().toISOString(),
+      headers:{
+        code: status,
+        exception: exception.message,
+        message: exception.name,
+        detail: error
+      },
+      data: null
     });
   }
 }
