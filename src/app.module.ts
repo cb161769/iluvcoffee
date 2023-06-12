@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { CommonModule } from './common/common.module';
 import { BackofficeModule } from './backoffice/backoffice.module';
+import { CartModule } from './cart/cart.module';
 import * as Joi from '@hapi/joi';
 @Module({
   imports:
@@ -21,6 +22,7 @@ import * as Joi from '@hapi/joi';
       ),
       CommonModule,
       BackofficeModule,
+      CartModule,
     ],
   controllers: [],
   providers: [],
